@@ -1,5 +1,8 @@
 import './App.css';
-import {BrowserRouter as Router, Switch, Route} from 'react-router-dom'
+import {useState} from 'react';
+import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
+
+
 
 //Components
 import Navbar from './components/Navbar'
@@ -9,13 +12,18 @@ import Navbar from './components/Navbar'
 import HomePage from './pages/HomePage'
 import ProductPage from './pages/ProductPage'
 import CartPage from './pages/CartPage'
+import Backdrop from './components/Backdrop';
+import SideMenu from './components/SideMenu';
 
 function App() {
+
+  const [sideToggle, setSideToggle] = useState(false) 
+  
   return(
   <Router>
-    <Navbar/>
-    {/* SideMenu */}
-    {/* Backdrop placed behind sidemenu*/}
+    <Navbar click={() => setSideToggle(true)}/>
+   <SideMenu show={sideToggle} click={() => setSideToggle(false)}/>
+   <Backdrop show={sideToggle} click={() => setSideToggle(false)}/>
 
 
     <main>
