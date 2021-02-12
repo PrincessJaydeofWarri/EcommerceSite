@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import './SideMenu.css'
+import {useSelector} from 'react-redux'
 
 const SideMenu = ({show, click}) => {
     const sideMenuClass = ['sidemenu'];
@@ -8,13 +9,22 @@ const SideMenu = ({show, click}) => {
         sideMenuClass.push('show')
 
     }
+
+    const cart = useSelector(state => state.cart);
+
+    const {cartItems} = cart;
+
+    const getCartCount = ()=> {
+        return cartItems.reduce((qty, item) => qty + Number(item.qty), 0)
+    }
+
     return <div className={sideMenuClass.join(' ')}>
         <ul className='sidemenu__links' onClick={click}>
             <li>
                 <Link to='/cart'>
                 <i className="fas fa-shopping-cart"></i>
                 <span>
-                    Cart <span className="sidemenu__cartbadge">0</span>
+                    Cart <span className="sidemenu__cartbadge">{getCartCount()}</span>
                 </span>
                 
                 </Link>

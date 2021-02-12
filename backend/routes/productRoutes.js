@@ -1,12 +1,12 @@
 const exppress = require('express');
 const router = exppress.Router();
 
-const {getAllProducts, getProductById} = require('../controller/productControllers');
+const {getProducts, getProductById} = require('../controller/productControllers');
 
 //description Get all products from db
 //route GET api/products
 //access Public
-router.get('/', getAllProducts);
+router.get('/', getProducts);
 
 //description Get a product by id from db
 //route GET API/PRODUCTS/:id

@@ -1,41 +1,68 @@
 import './ProductPage.css'
-import bottle from '../components/images/NewYork.png';
+import {useState, useEffect} from 'react'
+import {useSelector, useDispatch} from 'react-redux'
 
-const ProductPage = () => {
-    return <div className ="productpage">
+//Actions
+import {getProductDetails} from '../redux/actions/productActions';
+import {addToCart} from '../redux/actions/cartActions'
+
+const ProductPage = ({match, history}) => {
+
+const [qty, setQty] = useState(1);
+const dispatch = useDispatch();
+const productDetails = useSelector((state) => state.getProductDetails);
+const { loading, error, product } = productDetails;
+
+useEffect(() => {
+    if (product && match.params.id !== product._id) {
+      dispatch(getProductDetails(match.params.id));
+    }
+  }, [dispatch, match, product]);
+
+const addToCartHandler = () => {
+    dispatch(addToCart(product._id, qty))
+    history.push(`/cart`)
+}
+
+    return (  
+        <div className ="productpage">
+        {loading ? (
+                    <h2>Loading...</h2>
+                ) : error ? (
+                <h2>{error}</h2>
+                ) : (
+                <>
                 <div className="productpage__left">
                     <div className="left__image">
-                        <img src={bottle} alt="perfume"></img>
+                        <img src={product.imageUrl} alt={product.name}></img>
                     </div>                       
                     <div className="left__info">
-                        <p className="left__name">Perfume 1</p>
-                        <p>Price: £45.99</p>
-                        <p>Desccription: Some description will go here</p>  
+                        <p className="left__name">{product.name}</p>
+                        <p>Price: £{product.price}</p>
+                        <p>Desccription: {product.description}</p>  
                 </div>
             </div>
             <div className="productpage__right">
                 <div className='right__info'>
-                    <p>Price: <span>£45.99</span></p>
-                    <p>Status: <span>In Stock</span> </p>
+                    <p>Price: <span>£{product.price}</span></p>
+                    <p>Status: <span>{product.countInStock > 0 ? "In Stock" : "Out of Stock"}</span> </p>
                     <p>Qty 
-                    <select>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
+                    <select value={qty} onChange={(e) => setQty(e.target.value)}>
+                       {[...Array(product.countInStock).keys()].map((x) => (
+                       <option key={x + 1} value={x + 1}>{x + 1}</option>    
+                       ))}
                     </select>
                     </p>
                     <p>
-                        <button type="button">Add to cart</button>
+                        <button type="button" onClick={addToCartHandler}>Add to cart</button>
                     </p>
                 
             </div>
             </div> 
+            </>
+                )}
         </div>
-        
-
-
-
+    );             
 };
 
 

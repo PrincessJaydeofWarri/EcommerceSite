@@ -1,13 +1,13 @@
 .cartitem {
     width: 100%;
     padding: 1rem;
-    margin-bottom: 8px;
     display: grid;
     grid-template-columns: 1fr 4fr 1fr 1fr 1fr;
     gap: 8px;
     background: #fff;
     border-radius: 2px;
     place-items: center;
+    margin-bottom: 8px;
 }
 
 .cartitem__name {
@@ -52,7 +52,7 @@
     }
 }
 
-@media(max-width: 500px){
+@media(max-width: 700px){
     .cartitem__name {
         font-size: 0.6rem;
     }
