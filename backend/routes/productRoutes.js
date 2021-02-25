@@ -1,5 +1,5 @@
 const exppress = require('express');
-const router = exppress.Router();
+const router = express.Router();
 
 const {getProducts, getProductById} = require('../controller/productControllers');
 
